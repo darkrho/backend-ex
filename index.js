@@ -1,7 +1,13 @@
 const express = require('express')
+const morgan = require('morgan')
 
+// middleware function
+morgan.token('body', (req) => JSON.stringify(req.body))
+//middlewares
 const app = express()
 app.use(express.json())
+//app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :response-time ms :body'))
 
 let entries = [
   {
@@ -43,10 +49,12 @@ app.get("/info", (request, response) => {
   // send entries data 
   response.send(template)
 })
+
 // GET -> api/persons
 app.get("/api/persons", (request, response) => {
   response.send(JSON.stringify(entries))
 })
+
 // GET -> api/persons/id
 app.get("/api/persons/:id", (request, response) => {
   const id = request.params.id
@@ -57,6 +65,7 @@ app.get("/api/persons/:id", (request, response) => {
     response.json(contact)
   }
 })
+
 // DELETE -> api/persons/id
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id
@@ -64,6 +73,7 @@ app.delete("/api/persons/:id", (request, response) => {
   entries = contacts
   response.status(204).end()
 })
+
 // POST -> api/persons
 const createId = () => {
   const id = Math.max(...entries.map(person => Number(person.id)))
@@ -71,7 +81,6 @@ const createId = () => {
 }
 const nameExist = (contacts, name) => {
   const nameFilter = contacts.filter((person) => person.name === name)
-  console.log(nameFilter.length)
   if (nameFilter.length > 0) {
     return true
   }
@@ -99,6 +108,7 @@ app.post("/api/persons", (request, response) => {
 
   response.json(newContact)
 })
+
 // start server
 const PORT = 3002
 app.listen(PORT, () => { console.log(`listening on port ${PORT}`) })

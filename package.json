@@ -11,6 +11,7 @@
   "author": "Dan",
   "license": "MIT",
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^3.1.7"
   },
   "dependencies": {
