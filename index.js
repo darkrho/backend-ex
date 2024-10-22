@@ -28,6 +28,20 @@ const entries = [
 app.get("/", (request, response) => {
   response.send('<h1>Hello World<h1/>')
 })
+
+// GET -> info
+app.get("/info", (request, response) => {
+  const entries_len = entries.length
+  const today = new Date()
+  const template = `
+    <div>
+      <p>Phonebook has info for ${entries_len} people<p/>
+      <br />
+      <p>${today} <p/>
+    </div>`
+  // send entries data 
+  response.send(template)
+})
 // GET -> api/persons
 app.get("/api/persons", (request, response) => {
   response.send(JSON.stringify(entries))
