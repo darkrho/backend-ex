@@ -1,13 +1,15 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 // middleware function
 morgan.token('body', (req) => JSON.stringify(req.body))
 //middlewares
 const app = express()
 app.use(express.json())
+app.use(cors())
 //app.use(morgan('tiny'))
-app.use(morgan(':method :url :status :response-time ms :body'))
+app.use(morgan(':method :url :status :body'))
 
 let entries = [
   {
@@ -110,5 +112,5 @@ app.post("/api/persons", (request, response) => {
 })
 
 // start server
-const PORT = 3002
+const PORT = 3001
 app.listen(PORT, () => { console.log(`listening on port ${PORT}`) })
