@@ -38,7 +38,7 @@ app.get("/info", (request, response) => {
 app.get("/api/persons", (request, response) => {
   Contact.find({})
     .then(result => {
-      response.send(JSON.stringify(entries))
+      response.send(JSON.stringify(result))
     })
 })
 
