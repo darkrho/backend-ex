@@ -117,10 +117,15 @@ app.post("/api/persons", (request, response, next) => {
 // PUT -> api/persons
 
 app.put('api/persons', (request, response, next) => {
-  const contactUpdate = request.body
   const id = request.body.id
-  Contact.findByIdAndUpdate(id, contactUpdate, { new: true })
+
+  const newUpdatedPerson = {
+    name: request.body.name,
+    number: request.body.number
+  }
+  Contact.findByIdAndUpdate(id, newUpdatedPerson, { new: true })
     .then(updatedContact => {
+      console.log(updatedContact)
       response.json(updatedContact)
     })
     .catch(error => next(error))
