@@ -99,11 +99,7 @@ app.post("/api/persons", (request, response, next) => {
     })
   }
 
-  //if (nameExist(entries, body.name)) {
-  //  return response.status(400).json({
-  //    error: "name must be unique"
-  //  })
-  //}
+
 
   // create a contact for the database
   const newContact = new Contact({
@@ -115,6 +111,14 @@ app.post("/api/persons", (request, response, next) => {
     .then(contactAdded => {
       response.json(contactAdded)
     })
+
+})
+
+// PUT -> api/persons
+
+app.put('api/persons', (request, response, next) => {
+  const contactUpdate = request.body
+  console.log(contactUpdate)
 
 })
 
