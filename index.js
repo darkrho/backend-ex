@@ -123,13 +123,14 @@ app.put('api/persons', (request, response, next) => {
     name: request.body.name,
     number: request.body.number
   }
+  console.log(newUpdatedPerson)/* 
   Contact.findByIdAndUpdate(id, newUpdatedPerson, { new: true })
     .then(updatedContact => {
       console.log(updatedContact)
       response.json(updatedContact)
     })
     .catch(error => next(error))
-
+ */
 })
 
 // more middlewares
