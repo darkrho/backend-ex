@@ -53,15 +53,15 @@ app.get("/api/persons/:id", (request, response) => {
     response.json(contact)
   }
 })
-
+*/
 // DELETE -> api/persons/id
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id
-  const contacts = entries.filter(person => person.id !== id)
-  entries = contacts
-  response.status(204).end()
+  Contact.findByIdAndDelete(id)
+    .then(result => {
+      response.status(204).end()
+    })
 })
-*/
 
 // POST -> api/persons
 
