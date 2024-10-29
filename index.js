@@ -61,22 +61,21 @@ app.delete("/api/persons/:id", (request, response) => {
   entries = contacts
   response.status(204).end()
 })
+*/
 
 // POST -> api/persons
-const createId = () => {
-  const id = Math.max(...entries.map(person => Number(person.id)))
-  return String(id + 1)
-}
+
+/* 
 const nameExist = (contacts, name) => {
   const nameFilter = contacts.filter((person) => person.name === name)
   if (nameFilter.length > 0) {
     return true
   }
   return false
-}
+} 
+*/
 app.post("/api/persons", (request, response) => {
   const body = request.body
-  const id = createId()
 
   if (!body.name || !body.number) {
     return response.status(404).json({
@@ -84,18 +83,24 @@ app.post("/api/persons", (request, response) => {
     })
   }
 
-  if (nameExist(entries, body.name)) {
-    return response.status(400).json({
-      error: "name must be unique"
+  //if (nameExist(entries, body.name)) {
+  //  return response.status(400).json({
+  //    error: "name must be unique"
+  //  })
+  //}
+
+  // create a contact for the database
+  const newContact = new Contact({
+    name: body.name,
+    number: body.number
+  })
+  // save the contact and return it
+  newContact.save()
+    .then(contactAdded => {
+      response.json(contactAdded)
     })
-  }
 
-
-  const newContact = { ...body, id: id }
-  entries.push(newContact)
-
-  response.json(newContact)
-}) */
+})
 
 // start server
 const PORT = process.env.PORT
