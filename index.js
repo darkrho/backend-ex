@@ -61,6 +61,9 @@ app.delete("/api/persons/:id", (request, response) => {
     .then(result => {
       response.status(204).end()
     })
+    .catch(error => {
+      console.log("bad formated id", error.message)
+    })
 })
 
 // POST -> api/persons
