@@ -4,8 +4,21 @@ const morgan = require('morgan')
 const cors = require('cors')
 const Contact = require('./models/contact')
 
-// middleware function
+// middleware functions
+
+// morgan custome string
 morgan.token('body', (req) => JSON.stringify(req.body))
+
+// handle errors
+const handleErrors = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+}
+
 //middlewares
 const app = express()
 app.use(express.json())
@@ -15,7 +28,7 @@ app.use(express.static('dist'))
 app.use(morgan(':method :url :status :body'))
 
 
-app.get("/", (request, response) => {
+app.get("/", (request, response, next) => {
   response.send('<h1>Hello World<h1/>')
 })
 /* 
@@ -35,7 +48,7 @@ app.get("/info", (request, response) => {
  */
 
 // GET -> api/persons
-app.get("/api/persons", (request, response) => {
+app.get("/api/persons", (request, response, next) => {
   Contact.find({})
     .then(result => {
       response.send(JSON.stringify(result))
@@ -55,14 +68,14 @@ app.get("/api/persons/:id", (request, response) => {
 })
 */
 // DELETE -> api/persons/id
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   const id = request.params.id
   Contact.findByIdAndDelete(id)
     .then(result => {
       response.status(204).end()
     })
     .catch(error => {
-      console.log("bad formated id", error.message)
+      next(error)
     })
 })
 
@@ -77,7 +90,7 @@ const nameExist = (contacts, name) => {
   return false
 } 
 */
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body
 
   if (!body.name || !body.number) {
@@ -105,6 +118,8 @@ app.post("/api/persons", (request, response) => {
 
 })
 
+// more middlewares
+app.use(handleErrors)
 // start server
 const PORT = process.env.PORT
 app.listen(PORT, () => { console.log(`listening on port ${PORT}`) })
