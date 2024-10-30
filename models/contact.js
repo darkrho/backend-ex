@@ -11,7 +11,13 @@ const contactSchema = new Schema({
   },
   number: {
     type: String,
-    minLength: 9,
+    minLength: 8,
+    validate: {
+      validator: function (v) {
+        return /\d{3}-\d{5-8}/.test(v)
+      },
+      message: props => `${props.value} is not a valid phone number! `
+    },
     required: true
   }
 })
