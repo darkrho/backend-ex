@@ -115,24 +115,23 @@ app.post("/api/persons", (request, response, next) => {
 })
 
 // PUT -> api/persons
-
-app.put('api/persons', (request, response, next) => {
-  const id = request.body.id
+/* 
+app.put('api/persons/:id', (request, response, next) => {
+  const id = request.params.id
 
   const newUpdatedPerson = {
     name: request.body.name,
     number: request.body.number
   }
-  console.log(newUpdatedPerson)/* 
   Contact.findByIdAndUpdate(id, newUpdatedPerson, { new: true })
     .then(updatedContact => {
       console.log(updatedContact)
       response.json(updatedContact)
     })
     .catch(error => next(error))
- */
+  
 })
-
+ */
 // more middlewares
 app.use(handleErrors)
 // start server
