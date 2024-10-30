@@ -49,4 +49,4 @@ mongoose.connect(uri)
     console.log(`error connecting to database: ${error.message}`)
   })
 
-module.exports = Contact 
+module.exports = Contact

@@ -19,7 +19,7 @@ const handleErrors = (error, request, response, next) => {
   }
 
   // handle validation errors
-  if (error.name === "ValidationError") {
+  if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
 
@@ -34,10 +34,10 @@ app.use(express.static('dist'))
 app.use(morgan(':method :url :status :body'))
 
 
-app.get("/", (request, response, next) => {
+app.get('/', (request, response, next) => {
   response.send('<h1>Hello World<h1/>')
 })
-/* 
+/*
 // GET -> info
 app.get("/info", (request, response) => {
   const entries_len = entries.length
@@ -48,13 +48,13 @@ app.get("/info", (request, response) => {
       <br />
       <p>${today} <p/>
     </div>`
-  // send entries data 
+  // send entries data
   response.send(template)
 })
  */
 
 // GET -> api/persons
-app.get("/api/persons", (request, response, next) => {
+app.get('/api/persons', (request, response, next) => {
   Contact.find({})
     .then(result => {
       response.send(JSON.stringify(result))
@@ -74,7 +74,7 @@ app.get("/api/persons/:id", (request, response) => {
 })
 */
 // DELETE -> api/persons/id
-app.delete("/api/persons/:id", (request, response, next) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
   Contact.findByIdAndDelete(id)
     .then(result => {
@@ -87,16 +87,16 @@ app.delete("/api/persons/:id", (request, response, next) => {
 
 // POST -> api/persons
 
-/* 
+/*
 const nameExist = (contacts, name) => {
   const nameFilter = contacts.filter((person) => person.name === name)
   if (nameFilter.length > 0) {
     return true
   }
   return false
-} 
+}
 */
-app.post("/api/persons", (request, response, next) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
 
@@ -115,9 +115,8 @@ app.post("/api/persons", (request, response, next) => {
     })
 
 })
-
 // PUT -> api/persons
-/* 
+/*
 app.put('api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
@@ -131,7 +130,7 @@ app.put('api/persons/:id', (request, response, next) => {
       response.json(updatedContact)
     })
     .catch(error => next(error))
-  
+
 })
  */
 // more middlewares
