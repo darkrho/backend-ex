@@ -13,8 +13,14 @@ morgan.token('body', (req) => JSON.stringify(req.body))
 const handleErrors = (error, request, response, next) => {
   console.error(error.message)
 
+  // handle cast errors
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  // handle validation errors
+  if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message })
   }
 
 }
@@ -93,13 +99,6 @@ const nameExist = (contacts, name) => {
 app.post("/api/persons", (request, response, next) => {
   const body = request.body
 
-  if (!body.name || !body.number) {
-    return response.status(404).json({
-      error: 'name or number is missing'
-    })
-  }
-
-
 
   // create a contact for the database
   const newContact = new Contact({
@@ -110,6 +109,9 @@ app.post("/api/persons", (request, response, next) => {
   newContact.save()
     .then(contactAdded => {
       response.json(contactAdded)
+    })
+    .catch(error => {
+      next(error)
     })
 
 })

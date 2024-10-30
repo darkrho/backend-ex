@@ -2,10 +2,18 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 
-// db Schema
+// db Schema with validation
 const contactSchema = new Schema({
-  name: String,
-  number: String
+  name: {
+    type: String,
+    minLength: 3,
+    required: true
+  },
+  number: {
+    type: String,
+    minLength: 9,
+    required: true
+  }
 })
 
 // transform schema
